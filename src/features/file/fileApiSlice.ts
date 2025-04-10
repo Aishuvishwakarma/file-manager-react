@@ -10,7 +10,7 @@ interface File {
 
 const fileApiSlice = createApi({
   reducerPath: "api", // default
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_URL}/api` }),
   endpoints: (builder) => ({
     uploadFile: builder.mutation<any, FormData>({
       query: (formData) => ({

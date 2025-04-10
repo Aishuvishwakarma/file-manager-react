@@ -2,19 +2,19 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FilterType, FolderType } from "../../types/fileSystem";
 const folderApiSlice = createApi({
   reducerPath: "ApiFolders", // default
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/folders" }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_URL}/api/folders` }),
   endpoints: (builder) => ({
     getFolders: builder.query<FolderType[], FilterType | void>({
       query: (filters) => {
         const params = new URLSearchParams();
-    
+
         if (filters?.name) params.append("name", filters.name);
         if (filters?.description) params.append("description", filters.description);
         if (filters?.createdAt) params.append("createdAt", filters.createdAt);
-    
+
         return `/?${params.toString()}`;
       },
-    }),    
+    }),
     createFolder: builder.mutation<
       FolderType,
       { name: string; description?: string, parent?: string | null }
