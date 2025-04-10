@@ -8,18 +8,21 @@ interface File {
   folder: string | null;
 }
 
- const fileApiSlice = createApi({
+const fileApiSlice = createApi({
   reducerPath: "api", // default
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
   endpoints: (builder) => ({
-    uploadFile: builder.mutation<File, FormData>({
+    uploadFile: builder.mutation<any, FormData>({
       query: (formData) => ({
         url: "/upload",
         method: "POST",
         body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      }),
+    }),
+    deleteFile: builder.mutation<{ message: string }, string>({
+      query: (id) => ({
+        url: `/files/${id}`,
+        method: "DELETE",
       }),
     }),
     getFilesByFolder: builder.query<File[], string>({
@@ -27,5 +30,9 @@ interface File {
     }),
   }),
 });
-export default fileApiSlice
-export const { useUploadFileMutation, useGetFilesByFolderQuery } = fileApiSlice;
+export default fileApiSlice;
+export const {
+  useUploadFileMutation,
+  useDeleteFileMutation,
+  useGetFilesByFolderQuery,
+} = fileApiSlice;

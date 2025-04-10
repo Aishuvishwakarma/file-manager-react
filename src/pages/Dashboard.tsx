@@ -1,11 +1,7 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import FileList from "../components/MainPanel/FileList";
-import { useGetFoldersQuery } from "../features/folder/folderApiSlice";
-import { FolderApiResponse } from "../types/fileSystem";
 const Dashboard = () => {
-  useGetFoldersQuery<FolderApiResponse>();
-
   return (
     <div className="text-xl flex h-screen">
       <Sidebar />

@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { useCreateFolderMutation, useGetFoldersQuery, useUpdateFolderMutation } from "../../features/folder/folderApiSlice";
-import { FolderApiResponse } from "../../types/fileSystem";
+import {
+  useCreateFolderMutation,
+  useGetFoldersQuery,
+  useUpdateFolderMutation,
+} from "../../features/folder/folderApiSlice";
+import { FilterType, FolderApiResponse } from "../../types/fileSystem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 interface FolderModalProps {
   onClose: () => void;
@@ -14,11 +20,19 @@ interface FolderModalProps {
   };
 }
 
-const FolderModal = ({ onClose, mode = "create", parentId, initialData }: FolderModalProps) => {
+const FolderModal = ({
+  onClose,
+  mode = "create",
+  parentId,
+  initialData,
+}: FolderModalProps) => {
   const [form, setForm] = useState({ name: "", description: "" });
   const [createFolder, { isLoading: creating }] = useCreateFolderMutation();
   const [updateFolder, { isLoading: updating }] = useUpdateFolderMutation();
-  const { refetch } = useGetFoldersQuery<FolderApiResponse>();
+  const filters: FilterType = useSelector(
+    (state: RootState) => state.folder.filter
+  );
+  const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
@@ -43,7 +57,7 @@ const FolderModal = ({ onClose, mode = "create", parentId, initialData }: Folder
       } else if (mode === "edit" && initialData?._id) {
         await updateFolder({ id: initialData._id, data: form }).unwrap();
       }
-      refetch()
+      refetch();
       onClose();
     } catch (err) {
       console.error("Error:", err);
@@ -55,7 +69,8 @@ const FolderModal = ({ onClose, mode = "create", parentId, initialData }: Folder
       <div className="bg-white rounded-xl w-full max-w-md shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-          <h2 className="text-sm font-medium text-gray-800">{mode === "edit" ? "Edit Folder" : "Create Folder"}
+          <h2 className="text-sm font-medium text-gray-800">
+            {mode === "edit" ? "Edit Folder" : "Create Folder"}
           </h2>
           <button onClick={onClose} className="text-xl">
             <IoClose />
@@ -105,7 +120,11 @@ const FolderModal = ({ onClose, mode = "create", parentId, initialData }: Folder
             disabled={creating || updating}
             className="px-4 py-2 bg-[#2D336B] text-white rounded-md hover:bg-[#232955] disabled:opacity-50"
           >
-            {creating || updating ? "Saving..." : mode === "edit" ? "Update" : "Create"}
+            {creating || updating
+              ? "Saving..."
+              : mode === "edit"
+              ? "Update"
+              : "Create"}
           </button>
         </div>
       </div>
