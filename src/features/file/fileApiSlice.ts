@@ -26,7 +26,10 @@ const fileApiSlice = createApi({
       }),
     }),
     getFilesByFolder: builder.query<File[], string>({
-      query: (folderId) => `/files/folder/${folderId}`,
+      query: (folderId) => `/files/${folderId}`,
+    }),
+    getFilesCount: builder.query<{ counts: number }, void>({
+      query: () => `/files/count`,
     }),
   }),
 });
@@ -35,4 +38,5 @@ export const {
   useUploadFileMutation,
   useDeleteFileMutation,
   useGetFilesByFolderQuery,
+  useGetFilesCountQuery
 } = fileApiSlice;

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import {
   useCreateFolderMutation,
+  useGetFolderCountQuery,
   useGetFoldersQuery,
   useUpdateFolderMutation,
 } from "../../features/folder/folderApiSlice";
+
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -29,10 +31,12 @@ const FolderModal = ({
   const [form, setForm] = useState({ name: "", description: "" });
   const [createFolder, { isLoading: creating }] = useCreateFolderMutation();
   const [updateFolder, { isLoading: updating }] = useUpdateFolderMutation();
+  
   const filters: FilterType = useSelector(
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
+  const { refetch: refetchCounts } = useGetFolderCountQuery();
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
@@ -58,6 +62,7 @@ const FolderModal = ({
         await updateFolder({ id: initialData._id, data: form }).unwrap();
       }
       refetch();
+      refetchCounts()
       onClose();
     } catch (err) {
       console.error("Error:", err);
@@ -123,8 +128,8 @@ const FolderModal = ({
             {creating || updating
               ? "Saving..."
               : mode === "edit"
-              ? "Update"
-              : "Create"}
+                ? "Update"
+                : "Create"}
           </button>
         </div>
       </div>

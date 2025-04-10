@@ -3,9 +3,12 @@ import { IoClose } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
-import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery, useGetFolderCountQuery } from "../../features/folder/folderApiSlice";
 import { RootState } from "../../app/store";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { useGetFilesCountQuery } from "../../features/file/fileApiSlice";
 
 interface FileUploadModalProps {
   onClose: () => void;
@@ -21,6 +24,8 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
+  const { refetch: refetchCounts } = useGetFolderCountQuery();
+  const { refetch: refetchFileCounts } = useGetFilesCountQuery();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -30,7 +35,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file.");
+      toast.warn("Please select a file.");
       return;
     }
 
@@ -56,16 +61,19 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
         }
       );
       refetch();
+      refetchCounts()
+      refetchFileCounts()
       onClose();
 
       if (response.status === 200) {
         setUploadProgress(100);
+        toast.success("File uploaded successfully!");
       } else {
-        alert("Upload failed");
+        toast.error("Upload failed. Please try again.");
       }
     } catch (error) {
       console.error("Upload error:", error);
-      alert("Upload failed");
+      toast.error("Upload failed. Please check your connection.");
     } finally {
       setIsUploading(false);
     }
@@ -73,6 +81,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-[#0000008d] z-50 flex items-center justify-center">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="bg-white rounded-xl w-full max-w-md shadow-lg">
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
           <h2 className="text-sm font-medium text-gray-800">Upload document</h2>

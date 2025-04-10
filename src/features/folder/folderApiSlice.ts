@@ -34,6 +34,9 @@ const folderApiSlice = createApi({
         method: "DELETE",
       }),
     }),
+    getFolderCount: builder.query<{ counts: number }, void>({
+      query: () => `/count`,
+    }),
     updateFolder: builder.mutation<
       FolderType,
       { id: string; data: Partial<FolderType> }
@@ -52,5 +55,6 @@ export const {
   useGetFoldersQuery,
   useCreateFolderMutation,
   useDeleteFolderMutation,
-  useUpdateFolderMutation
+  useUpdateFolderMutation,
+  useGetFolderCountQuery
 } = folderApiSlice;
