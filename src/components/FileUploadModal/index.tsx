@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
-import { useUploadFileMutation } from "../../features/file/fileApiSlice";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
 import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
@@ -17,8 +16,6 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-
-  const [uploadFile, { isLoading }] = useUploadFileMutation();
 
   const filters: FilterType = useSelector(
     (state: RootState) => state.folder.filter
