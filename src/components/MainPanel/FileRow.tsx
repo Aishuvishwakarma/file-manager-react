@@ -16,7 +16,7 @@ import FileUploadModal from "../FileUploadModal";
 import {
   useDeleteFolderMutation,
   useGetFoldersQuery,
-  useGetFolderCountQuery
+  useGetFileSystemCountQuery
 } from "../../features/folder/folderApiSlice";
 
 import { useSelector } from "react-redux";
@@ -44,7 +44,7 @@ function FileRow({
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
-  const { refetch: refetchCounts } = useGetFolderCountQuery();
+  const { refetch: refetchCounts } = useGetFileSystemCountQuery();
 
   const toggleChildren = () => setIsOpen(!isOpen);
 
