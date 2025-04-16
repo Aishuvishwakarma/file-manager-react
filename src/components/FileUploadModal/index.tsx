@@ -3,12 +3,11 @@ import { IoClose } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
-import { useGetFoldersQuery, useGetFolderCountQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery, useGetFileSystemCountQuery } from "../../features/folder/folderApiSlice";
 import { RootState } from "../../app/store";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
-import { useGetFilesCountQuery } from "../../features/file/fileApiSlice";
 
 interface FileUploadModalProps {
   onClose: () => void;
@@ -24,8 +23,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
-  const { refetch: refetchCounts } = useGetFolderCountQuery();
-  const { refetch: refetchFileCounts } = useGetFilesCountQuery();
+  const { refetch: refetchCounts } = useGetFileSystemCountQuery();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -62,7 +60,6 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
       );
       refetch();
       refetchCounts()
-      refetchFileCounts()
       onClose();
 
       if (response.status === 200) {

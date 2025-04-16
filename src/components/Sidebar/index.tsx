@@ -2,12 +2,10 @@ import SideMenu from "./SideMenu";
 import FolderTree from "./FolderTree";
 import { FaRegFolder } from "react-icons/fa6";
 import { FaRegFile } from "react-icons/fa";
-import { useGetFilesCountQuery } from "../../features/file/fileApiSlice";
-import { useGetFolderCountQuery } from "../../features/folder/folderApiSlice";
+import { useGetFileSystemCountQuery } from "../../features/folder/folderApiSlice";
 
 function Index() {
-  const { data: filesCount } = useGetFilesCountQuery();
-  const { data: foldersCount } = useGetFolderCountQuery();
+  const { data: foldersCount } = useGetFileSystemCountQuery();
   return (
     <div className="flex h-full">
       <SideMenu />
@@ -19,7 +17,7 @@ function Index() {
               <FaRegFolder style={{ fontSize: "25px" }} />
               <p className="text-sm font-normal">Folders</p>
               <p className="text-md font-medium">
-                {foldersCount?.counts != null ? (foldersCount.counts < 200 ? foldersCount.counts : "200+") : "—"}
+                {foldersCount?.folders != null ? (foldersCount.folders < 200 ? foldersCount.folders : "200+") : "—"}
               </p>
               </div>
 
@@ -27,7 +25,7 @@ function Index() {
               <FaRegFile style={{ fontSize: "25px" }} />
               <p className="text-sm font-normal">Documents</p>
               <p className="text-md font-medium">
-                {filesCount?.counts != null ? (filesCount.counts < 200 ? filesCount.counts : "200+") : "—"}
+                {foldersCount?.files != null ? (foldersCount.files < 200 ? foldersCount.files : "200+") : "—"}
               </p>
             </div>
           </div>

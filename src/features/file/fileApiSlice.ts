@@ -10,7 +10,7 @@ interface File {
 
 const fileApiSlice = createApi({
   reducerPath: "api", // default
-  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_URL}/api` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_URL}/api/file-system` }),
   endpoints: (builder) => ({
     uploadFile: builder.mutation<any, FormData>({
       query: (formData) => ({
@@ -21,16 +21,13 @@ const fileApiSlice = createApi({
     }),
     deleteFile: builder.mutation<{ message: string }, string>({
       query: (id) => ({
-        url: `/files/${id}`,
+        url: `/${id}`,
         method: "DELETE",
       }),
     }),
     getFilesByFolder: builder.query<File[], string>({
       query: (folderId) => `/files/${folderId}`,
-    }),
-    getFilesCount: builder.query<{ counts: number }, void>({
-      query: () => `/files/count`,
-    }),
+    })
   }),
 });
 export default fileApiSlice;
@@ -38,5 +35,4 @@ export const {
   useUploadFileMutation,
   useDeleteFileMutation,
   useGetFilesByFolderQuery,
-  useGetFilesCountQuery
 } = fileApiSlice;

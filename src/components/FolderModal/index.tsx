@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import {
   useCreateFolderMutation,
-  useGetFolderCountQuery,
+  useGetFileSystemCountQuery,
   useGetFoldersQuery,
   useUpdateFolderMutation,
 } from "../../features/folder/folderApiSlice";
@@ -36,7 +36,7 @@ const FolderModal = ({
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
-  const { refetch: refetchCounts } = useGetFolderCountQuery();
+  const { refetch: refetchCounts } = useGetFileSystemCountQuery();
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
