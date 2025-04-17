@@ -24,6 +24,8 @@ import { RootState } from "../../app/store";
 import { formatDateTimeParts } from "../../utils/date";
 import FileItemRow from "./FileItemRow";
 
+// same imports...
+
 function FileRow({
   folder,
   level = 0,
@@ -72,7 +74,7 @@ function FileRow({
     if (confirmed) {
       await deleteFolder(id);
       refetch();
-      refetchCounts()
+      refetchCounts();
     }
   };
 
@@ -90,10 +92,15 @@ function FileRow({
   const created = formatDateTimeParts(folder.createdAt as string);
   const updated = formatDateTimeParts(folder.updatedAt as string);
 
+
   return (
     <>
-      <tr className="bg-[#f8fafc] border border-gray-200">
-        <td className="px-4 py-4 text-sm font-medium text-gray-800 flex items-center gap-2">
+      <div
+        className={
+          `bg-[${isOpen ? "#f2f2f2" : "#f8fafc"}] ${isOpen ? "shadow-none" : "shadow-sm"}  transition grid grid-cols-5 items-center px-3 py-5 ${folder.parent ? "mb-0 rounded-none border border-gray-200" : "mt-4 rounded-xl"}`
+        }
+      >
+        <span className="flex items-center gap-2 text-sm font-medium text-gray-800">
           <div
             className="relative w-6 h-6 cursor-pointer"
             onClick={toggleChildren}
@@ -115,24 +122,20 @@ function FileRow({
           </div>
 
           <span>{folder.name}</span>
-        </td>
+        </span>
 
-        <td className="px-4 py-4 text-sm text-gray-600">
+        <span className="text-sm text-gray-600">
           {folder.description || "—"}
-        </td>
-        <td className="px-4 py-4 text-sm text-gray-600">
-          <div className="space-x-2">
-            <span>{created.date}</span>
-            <span className="font-semibold">{created.time}</span>
-          </div>
-        </td>
-        <td className="px-4 py-4 text-sm text-gray-600">
-          <div className="space-x-2">
-            <span>{updated.date}</span>
-            <span className="font-semibold">{updated.time}</span>
-          </div>
-        </td>
-        <td className="px-4 py-4 relative" ref={menuRef}>
+        </span>
+        <span className="text-sm text-gray-600">
+          <span>{created.date}</span>{" "}
+          <span className="font-semibold">{created.time}</span>
+        </span>
+        <span className="text-sm text-gray-600">
+          <span>{updated.date}</span>{" "}
+          <span className="font-semibold">{updated.time}</span>
+        </span>
+        <span className="relative flex justify-end" ref={menuRef}>
           <button onClick={() => setMenuOpen((prev) => !prev)}>
             <HiDotsVertical size={18} />
           </button>
@@ -167,17 +170,17 @@ function FileRow({
               </ul>
             </div>
           )}
-        </td>
-      </tr>
+        </span>
+      </div>
 
-      {isOpen &&
-        folder.files?.map((file: FileType) => (
-          <FileItemRow key={file._id} file={file} />
-        ))}
 
       {isOpen &&
         folder.children?.map((child) => (
-          <FileRow key={child._id} folder={child} level={level + 1} />
+          <FileRow key={child._id} folder={child}  level={level + 1} />
+        ))}
+      {isOpen &&
+        folder.files?.map((file: FileType, index) => (
+          <FileItemRow key={file._id} index={index} file={file} level={level + 1} />
         ))}
 
       {showModal && (
@@ -205,3 +208,4 @@ function FileRow({
 }
 
 export default FileRow;
+
