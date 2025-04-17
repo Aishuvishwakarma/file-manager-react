@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
-import { useGetFoldersQuery, useGetFileSystemCountQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery, useGetFileSystemCountQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { RootState } from "../../app/store";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";

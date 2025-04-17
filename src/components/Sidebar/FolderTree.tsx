@@ -1,5 +1,5 @@
 import FolderItem from "./FolderItem";
-import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";

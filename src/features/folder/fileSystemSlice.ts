@@ -15,7 +15,7 @@ const initialState: FolderState = {
   error: null,
 };
 
-const folderSlice = createSlice({
+const fileSystemSlice = createSlice({
   name: "folder",
   initialState,
   reducers: {
@@ -61,6 +61,6 @@ export const {
   addFolder,
   deleteFolder,
   updateFolder,
-} = folderSlice.actions;
+} = fileSystemSlice.actions;
 
-export default folderSlice.reducer;
+export default fileSystemSlice.reducer;

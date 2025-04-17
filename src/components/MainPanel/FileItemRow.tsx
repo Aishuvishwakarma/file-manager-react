@@ -8,15 +8,15 @@ import { useState, useRef, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { formatDateTimeParts } from "../../utils/date";
 import { FaFileAlt } from "react-icons/fa";
-import { useDeleteFileMutation } from "../../features/file/fileApiSlice";
-import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
+import { useDeleteFolderAndFileMutation } from "../../features/folder/fileSystemSliceApiSlice";
+import { useGetFoldersQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 
 function FileItemRow({ file, level = 0, index }: { file: FileType, level?: number, index?: number }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const [deleteFiles] = useDeleteFileMutation();
+  const [deleteFiles] = useDeleteFolderAndFileMutation();
   const isChild = Boolean(file.parent);
   const filters: FilterType = useSelector(
     (state: RootState) => state.folder.filter

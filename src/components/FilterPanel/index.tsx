@@ -1,6 +1,6 @@
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { FolderApiResponse } from "../../types/fileSystem";
 
 interface FolderFilterModalProps {

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FilterType, FolderType } from "../../types/fileSystem";
-const folderApiSlice = createApi({
+const fileSystemSliceApiSlice = createApi({
   reducerPath: "ApiFolders", // default
   baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_API_URL}/api/file-system` }),
   endpoints: (builder) => ({
@@ -25,7 +25,7 @@ const folderApiSlice = createApi({
         body,
       }),
     }),
-    deleteFolder: builder.mutation<
+    deleteFolderAndFile: builder.mutation<
       { message: string }, // Response type
       string               // id only
     >({
@@ -50,11 +50,11 @@ const folderApiSlice = createApi({
   }),
 });
 
-export default folderApiSlice;
+export default fileSystemSliceApiSlice;
 export const {
   useGetFoldersQuery,
   useCreateFolderMutation,
-  useDeleteFolderMutation,
+  useDeleteFolderAndFileMutation,
   useUpdateFolderMutation,
   useGetFileSystemCountQuery
-} = folderApiSlice;
+} = fileSystemSliceApiSlice;
