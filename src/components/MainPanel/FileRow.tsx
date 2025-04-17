@@ -14,10 +14,10 @@ import {
 import FolderModal from "../FolderModal";
 import FileUploadModal from "../FileUploadModal";
 import {
-  useDeleteFolderMutation,
+  useDeleteFolderAndFileMutation,
   useGetFoldersQuery,
   useGetFileSystemCountQuery
-} from "../../features/folder/folderApiSlice";
+} from "../../features/folder/fileSystemSliceApiSlice";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -41,7 +41,7 @@ function FileRow({
   const [editFolder, setEditFolder] = useState<FolderType | null>(null);
   const [mode, setMode] = useState<"create" | "edit">("create");
 
-  const [deleteFolder] = useDeleteFolderMutation();
+  const [deleteFolder] = useDeleteFolderAndFileMutation();
   const filters: FilterType = useSelector(
     (state: RootState) => state.folder.filter
   );

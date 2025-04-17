@@ -1,5 +1,5 @@
 import { RootState } from "../../app/store";
-import { useGetFoldersQuery } from "../../features/folder/folderApiSlice";
+import { useGetFoldersQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import {
   FilterType,
   FolderApiResponse,

@@ -2,7 +2,7 @@ import SideMenu from "./SideMenu";
 import FolderTree from "./FolderTree";
 import { FaRegFolder } from "react-icons/fa6";
 import { FaRegFile } from "react-icons/fa";
-import { useGetFileSystemCountQuery } from "../../features/folder/folderApiSlice";
+import { useGetFileSystemCountQuery } from "../../features/folder/fileSystemSliceApiSlice";
 
 function Index() {
   const { data: foldersCount } = useGetFileSystemCountQuery();

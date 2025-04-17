@@ -1,19 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import folderReducer from '../features/folder/folderSlice';
-import fileReducer from '../features/file/fileSlice';
-import folderApiSlice from '../features/folder/folderApiSlice';
-import fileApiSlice from '../features/file/fileApiSlice';
+import folderReducer from '../features/folder/fileSystemSlice';
+import fileSystemSliceApiSlice from '../features/folder/fileSystemSliceApiSlice';
 
 export const store = configureStore({
   reducer: {
-    [fileApiSlice.reducerPath]: fileApiSlice.reducer,
-    [folderApiSlice.reducerPath]: folderApiSlice.reducer,
+    [fileSystemSliceApiSlice.reducerPath]: fileSystemSliceApiSlice.reducer,
     folder: folderReducer,
-    file: fileReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    fileApiSlice.middleware,
-    folderApiSlice.middleware
+    fileSystemSliceApiSlice.middleware
   ),
 });
 

@@ -5,7 +5,7 @@ import {
   useGetFileSystemCountQuery,
   useGetFoldersQuery,
   useUpdateFolderMutation,
-} from "../../features/folder/folderApiSlice";
+} from "../../features/folder/fileSystemSliceApiSlice";
 
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
 import { useSelector } from "react-redux";

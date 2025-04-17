@@ -6,7 +6,7 @@ import FolderModal from "../FolderModal";
 import FileUploadModal from "../FileUploadModal";
 import FilterPanel from "../FilterPanel";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilters } from "../../features/folder/folderSlice";
+import { setFilters } from "../../features/folder/fileSystemSlice";
 
 function HeaderBar() {
   const [menuOpen, setMenuOpen] = useState(false);
