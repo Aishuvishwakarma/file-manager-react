@@ -48,7 +48,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
       setUploadProgress(0);
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/upload`, formData,
+        `${import.meta.env.VITE_API_URL}/api/file-system/upload`, formData,
         {
           onUploadProgress: (event) => {
             if (event.total) {

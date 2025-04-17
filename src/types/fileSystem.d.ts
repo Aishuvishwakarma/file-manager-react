@@ -5,11 +5,12 @@ export type FileType = {
   type?: string;
   folder?: string;
   createdAt?: string;
+  parent?: string | null;
+  children?: FileType[];
 };
 export type FolderType = {
   _id?: string;
   name?: string;
-  parent?: string;
   description?: string;
   createdAt?: string;
   updatedAt?: string;
