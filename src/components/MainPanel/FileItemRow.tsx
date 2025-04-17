@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import { formatDateTimeParts } from "../../utils/date";
 import { FaFileAlt } from "react-icons/fa";
-import { useDeleteFolderAndFileMutation } from "../../features/folder/fileSystemSliceApiSlice";
+import { useDeleteFolderAndFileMutation, useGetFileSystemCountQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { useGetFoldersQuery } from "../../features/folder/fileSystemSliceApiSlice";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -22,6 +22,8 @@ function FileItemRow({ file, level = 0, index }: { file: FileType, level?: numbe
     (state: RootState) => state.folder.filter
   );
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
+  const { refetch: refetchCounts } = useGetFileSystemCountQuery();
+
 
   const created = formatDateTimeParts(file.createdAt as string);
 
@@ -40,6 +42,7 @@ function FileItemRow({ file, level = 0, index }: { file: FileType, level?: numbe
     if (confirmed) {
       await deleteFiles(id);
       refetch();
+      refetchCounts();
     }
   };
 
