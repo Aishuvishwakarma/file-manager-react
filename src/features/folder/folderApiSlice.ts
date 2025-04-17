@@ -24,7 +24,7 @@ const folderApiSlice = createApi({
         method: "POST",
         body,
       }),
-    }),                           
+    }),
     deleteFolder: builder.mutation<
       { message: string }, // Response type
       string               // id only
@@ -34,7 +34,7 @@ const folderApiSlice = createApi({
         method: "DELETE",
       }),
     }),
-    getFileSystemCount: builder.query<{folders: number ,files:number}, void>({
+    getFileSystemCount: builder.query<{ folders: number, files: number }, void>({
       query: () => `/count`,
     }),
     updateFolder: builder.mutation<
