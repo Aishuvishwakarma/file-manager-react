@@ -34,7 +34,7 @@ const folderApiSlice = createApi({
         method: "DELETE",
       }),
     }),
-    getFileSystemCount: builder.query<{ counts: number }, void>({
+    getFileSystemCount: builder.query<{folders: number ,files:number}, void>({
       query: () => `/count`,
     }),
     updateFolder: builder.mutation<

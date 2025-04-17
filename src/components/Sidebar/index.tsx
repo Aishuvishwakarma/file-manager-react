@@ -6,6 +6,7 @@ import { useGetFileSystemCountQuery } from "../../features/folder/folderApiSlice
 
 function Index() {
   const { data: foldersCount } = useGetFileSystemCountQuery();
+  console.log(foldersCount, "foldersCount");
   return (
     <div className="flex h-full">
       <SideMenu />
