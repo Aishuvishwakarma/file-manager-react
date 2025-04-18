@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FilterType, FolderType } from "../../types/fileSystem";
+import { FilterType, FolderBreadcrumbType, FolderType } from "../../types/fileSystem";
 
 interface FolderState {
   folders: FolderType[];
   filter: FilterType;
   loading: boolean;
   error: string | null;
+  showSideBar: boolean;
+  breadcrumb: FolderBreadcrumbType;
 }
 
 const initialState: FolderState = {
@@ -13,6 +15,8 @@ const initialState: FolderState = {
   filter: { name: "", description: "", createdAt: "" },
   loading: false,
   error: null,
+  showSideBar: true,
+  breadcrumb: { parentName: "NSM", childName: "Folders & Documents", show: true, selectedFolderId: "" },
 };
 
 const fileSystemSlice = createSlice({
@@ -51,8 +55,14 @@ const fileSystemSlice = createSlice({
           folder.parent = action.payload.parent;
       }
     },
-  },
-});
+    updateShowSideBar(state, action: PayloadAction<boolean>) {
+      state.showSideBar = action.payload
+    },
+    updateBreadcrumb(state, action: PayloadAction<{ folderId: string | null }>) {
+      state.breadcrumb.selectedFolderId = action.payload.folderId || "";
+    }
+  }
+})
 
 export const {
   setFolders,
@@ -61,6 +71,8 @@ export const {
   addFolder,
   deleteFolder,
   updateFolder,
+  updateShowSideBar,
+  updateBreadcrumb
 } = fileSystemSlice.actions;
 
 export default fileSystemSlice.reducer;

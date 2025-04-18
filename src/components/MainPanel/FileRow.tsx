@@ -16,13 +16,14 @@ import FileUploadModal from "../FileUploadModal";
 import {
   useDeleteFolderAndFileMutation,
   useGetFoldersQuery,
-  useGetFileSystemCountQuery
+  useGetFileSystemCountQuery,
 } from "../../features/folder/fileSystemSliceApiSlice";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { formatDateTimeParts } from "../../utils/date";
 import FileItemRow from "./FileItemRow";
+import { updateBreadcrumb } from "../../features/folder/fileSystemSlice";
 
 // same imports...
 
@@ -40,7 +41,7 @@ function FileRow({
   const [isOpen, setIsOpen] = useState(false);
   const [editFolder, setEditFolder] = useState<FolderType | null>(null);
   const [mode, setMode] = useState<"create" | "edit">("create");
-
+  const dispatch = useDispatch();
   const [deleteFolder] = useDeleteFolderAndFileMutation();
   const filters: FilterType = useSelector(
     (state: RootState) => state.folder.filter
@@ -48,8 +49,10 @@ function FileRow({
   const { refetch } = useGetFoldersQuery<FolderApiResponse>(filters);
   const { refetch: refetchCounts } = useGetFileSystemCountQuery();
 
-  const toggleChildren = () => setIsOpen(!isOpen);
-
+  const toggleChildren = () => {
+    setIsOpen(!isOpen);
+    dispatch(updateBreadcrumb({ folderId: folder._id }));
+  }
   const handleOpenCreateFolder = (parentId?: string) => {
     setSelectedParent(parentId || null);
     setEditFolder(null);
@@ -176,7 +179,7 @@ function FileRow({
 
       {isOpen &&
         folder.children?.map((child) => (
-          <FileRow key={child._id} folder={child}  level={level + 1} />
+          <FileRow key={child._id} folder={child} level={level + 1} />
         ))}
       {isOpen &&
         folder.files?.map((file: FileType, index) => (

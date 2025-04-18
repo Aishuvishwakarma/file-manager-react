@@ -9,7 +9,7 @@ export type FileType = {
   children?: FileType[];
 };
 export type FolderType = {
-  _id?: string;
+  _id: string;
   name?: string;
   description?: string;
   createdAt?: string;
@@ -31,3 +31,10 @@ export type FilterType = {
   description?: string;
   createdAt?: string;
 };
+
+export type FolderBreadcrumbType = {
+  parentName: string;
+  childName: string;
+  show: boolean;
+  selectedFolderId: string;
+}
