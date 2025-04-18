@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { FaFileUpload } from "react-icons/fa";
+import { FaFileAlt, FaFileUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
 import { useGetFoldersQuery, useGetFileSystemCountQuery } from "../../features/folder/fileSystemSliceApiSlice";
@@ -104,6 +104,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
                 className="cursor-pointer flex flex-col items-center"
               >
                 <FaFileUpload className="text-5xl text-gray-300" />
+
                 {file && (
                   <p className="mt-2 text-sm text-gray-600">{file.name}</p>
                 )}
@@ -111,19 +112,29 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
             </div>
           </div>
         )}
-        {isUploading && (
-          <div className="mt-4">
+        {isUploading && file && (
+          <div className="px-4 py-4">
+            {/* File icon and name */}
+            <div className="flex items-center space-x-2 mb-4">
+              <FaFileAlt size={22} className="text-blue-500" />
+              <span className="text-sm font-medium text-gray-800 truncate">{file.name}</span>
+            </div>
+
+            {/* Progress bar */}
             <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-green-500 transition-all duration-300"
                 style={{ width: `${uploadProgress}%` }}
               />
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+
+            {/* Upload percentage text */}
+            <p className="text-sm text-gray-600 mt-2 text-right">
               {uploadProgress}% upload completed
             </p>
           </div>
         )}
+
         <div className="flex justify-end gap-2 px-4 py-3 border-t border-gray-200">
           <button
             className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50"

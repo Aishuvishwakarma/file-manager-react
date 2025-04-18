@@ -7,6 +7,7 @@ import FileUploadModal from "../FileUploadModal";
 import FilterPanel from "../FilterPanel";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters } from "../../features/folder/fileSystemSlice";
+import { RootState } from "../../app/store";
 
 function HeaderBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ function HeaderBar() {
   const [showFileUploadModal, setShowFileUploaderModal] = useState(false);
   const dispatch = useDispatch();
   const filters = useSelector<any>((state) => state.folder.filter);
+  const selectedFolderId = useSelector((state: RootState) => state.folder.breadcrumb.selectedFolderId);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const menuRef: any = useRef(null);
   const filterRef: any = useRef(null);
@@ -32,8 +34,11 @@ function HeaderBar() {
   }, []);
 
   return (
-    <div className="h-[70px] bg-white flex items-center border-b-2 border-gray-200 justify-between px-4 relative z-10">
-      <Breadcrumb />
+    <div className="h-[70px] bg-white flex items-center border-b-2 border-gray-200 justify-between  px-4 relative z-10">
+
+      <div>
+        <Breadcrumb selectedFolderId={selectedFolderId} />
+      </div>
 
       <div className="relative flex items-center space-x-4">
         <div className="relative">

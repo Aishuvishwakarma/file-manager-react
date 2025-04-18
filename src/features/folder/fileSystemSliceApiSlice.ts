@@ -37,16 +37,16 @@ const fileSystemSliceApiSlice = createApi({
     getFileSystemCount: builder.query<{ folders: number, files: number }, void>({
       query: () => `/count`,
     }),
-    updateFolder: builder.mutation<
-      FolderType,
-      { id: string; data: Partial<FolderType> }
-    >({
+    updateFolder: builder.mutation<FolderType, { id: string; data: Partial<FolderType> }>({
       query: ({ id, data }) => ({
         url: `/${id}`,
         method: "PATCH",
         body: data,
       }),
     }),
+    getBreadCrumb: builder.query<{ _id: string; name: string }[], string>({
+      query: (folderId) => `/folder/breadcrumb/${folderId}`,
+    }),   
   }),
 });
 
@@ -56,5 +56,6 @@ export const {
   useCreateFolderMutation,
   useDeleteFolderAndFileMutation,
   useUpdateFolderMutation,
-  useGetFileSystemCountQuery
+  useGetFileSystemCountQuery,
+  useGetBreadCrumbQuery,
 } = fileSystemSliceApiSlice;
