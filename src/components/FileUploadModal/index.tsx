@@ -3,7 +3,10 @@ import { IoClose } from "react-icons/io5";
 import { FaFileAlt, FaFileUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FilterType, FolderApiResponse } from "../../types/fileSystem";
-import { useGetFoldersQuery, useGetFileSystemCountQuery } from "../../features/folder/fileSystemSliceApiSlice";
+import {
+  useGetFoldersQuery,
+  useGetFileSystemCountQuery,
+} from "../../features/folder/fileSystemSliceApiSlice";
 import { RootState } from "../../app/store";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
@@ -46,10 +49,15 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
     try {
       setIsUploading(true);
       setUploadProgress(0);
+      const token = localStorage.getItem("authToken");
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/file-system/upload`, formData,
+        `${import.meta.env.VITE_API_URL}/api/file-system/upload`,
+        formData,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           onUploadProgress: (event) => {
             if (event.total) {
               const percent = Math.round((event.loaded / event.total) * 100);
@@ -59,7 +67,7 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
         }
       );
       refetch();
-      refetchCounts()
+      refetchCounts();
       onClose();
 
       if (response.status === 200) {
@@ -117,7 +125,9 @@ const FileUploadModal = ({ onClose, folderId }: FileUploadModalProps) => {
             {/* File icon and name */}
             <div className="flex items-center space-x-2 mb-4">
               <FaFileAlt size={22} className="text-blue-500" />
-              <span className="text-sm font-medium text-gray-800 truncate">{file.name}</span>
+              <span className="text-sm font-medium text-gray-800 truncate">
+                {file.name}
+              </span>
             </div>
 
             {/* Progress bar */}
