@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { customBaseQuery } from "../../app/customBaseQuery";
 interface AuthResponse {
   token: string;
   user: {
@@ -12,39 +12,27 @@ interface AuthRequest {
   email: string;
   password: string;
 }
+const authPath = "api/auth";
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_API_URL}/api/auth`
-  }),
+  baseQuery: customBaseQuery,
   endpoints: (builder) => ({
     login: builder.mutation<AuthResponse, AuthRequest>({
       query: (credentials) => ({
-        url: "/login",
+        url: `${authPath}/login`,
         method: "POST",
         body: credentials,
       }),
     }),
     register: builder.mutation<AuthResponse, AuthRequest>({
       query: (userData) => ({
-        url: "/register",
+        url: `${authPath}/login/register`,
         method: "POST",
         body: userData,
-      }),
-    }),
-    logout: builder.mutation<{ message: string }, void>({
-      query: () => ({
-        url: "/logout",
-        method: "POST",
       }),
     }),
   }),
 });
 
-export const {
-  useLoginMutation,
-  useRegisterMutation,
-  useLogoutMutation,
-} = authApiSlice;
-
+export const { useLoginMutation, useRegisterMutation } = authApiSlice;
