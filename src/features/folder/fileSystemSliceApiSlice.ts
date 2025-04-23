@@ -1,17 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { FilterType, FolderType } from "../../types/fileSystem";
+import { customBaseQuery } from "../../app/customBaseQuery";
+const fileSystemPath = "api/file-system";
+
 const fileSystemSliceApiSlice = createApi({
   reducerPath: "ApiFolders", // default
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_API_URL}/api/file-system`,
-    prepareHeaders(headers) {
-      const token = localStorage.getItem("authToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: customBaseQuery,
   endpoints: (builder) => ({
     getFolders: builder.query<FolderType[], FilterType | void>({
       query: (filters) => {
@@ -22,7 +16,7 @@ const fileSystemSliceApiSlice = createApi({
           params.append("description", filters.description);
         if (filters?.createdAt) params.append("createdAt", filters.createdAt);
 
-        return `/?${params.toString()}`;
+        return `${fileSystemPath}/?${params.toString()}`;
       },
     }),
     createFolder: builder.mutation<
@@ -30,7 +24,7 @@ const fileSystemSliceApiSlice = createApi({
       { name: string; description?: string; parent?: string | null }
     >({
       query: (body) => ({
-        url: "/folder",
+        url: `${fileSystemPath}/folder`,
         method: "POST",
         body,
       }),
@@ -40,13 +34,13 @@ const fileSystemSliceApiSlice = createApi({
       string // id only
     >({
       query: (id) => ({
-        url: `/${id}`,
+        url: `${fileSystemPath}/${id}`,
         method: "DELETE",
       }),
     }),
     getFileSystemCount: builder.query<{ folders: number; files: number }, void>(
       {
-        query: () => `/count`,
+        query: () => `${fileSystemPath}/count`,
       }
     ),
     updateFolder: builder.mutation<
@@ -54,13 +48,13 @@ const fileSystemSliceApiSlice = createApi({
       { id: string; data: Partial<FolderType> }
     >({
       query: ({ id, data }) => ({
-        url: `/${id}`,
+        url: `${fileSystemPath}/${id}`,
         method: "PATCH",
         body: data,
       }),
     }),
     getBreadCrumb: builder.query<{ _id: string; name: string }[], string>({
-      query: (folderId) => `/folder/breadcrumb/${folderId}`,
+      query: (folderId) => `${fileSystemPath}/folder/breadcrumb/${folderId}`,
     }),
   }),
 });
